@@ -1,17 +1,38 @@
 import { useContext } from "react"
 import { Link, useNavigate } from "react-router"
 import { AuthContext } from "../provider/AuthProvider"
+import toast from "react-hot-toast";
 
 const Registration = () => {
-    const {signInWithGoogle,createUser,updateUserProfile} = useContext(AuthContext);
+    const {user,signInWithGoogle,createUser,updateUserProfile,setUser} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleGoogleSignIn = async() => {
         try {
             await signInWithGoogle();
+            toast.success('Account created successfully');
             navigate('/');
         } catch (error) {
             console.log(error);
+            toast.error(error.message)
+        }
+    }
+
+    const handleEmailRegistration = async(e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const name = e.target.name.value;
+        const photo = e.target.photo.value;
+        try {
+            await createUser(email, password);
+            await updateUserProfile(name, photo);
+            setUser({...user,displayName:name,photoURL:photo});
+            toast.success('Account created successfully');
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
         }
     }
     return (
@@ -66,7 +87,7 @@ const Registration = () => {
   
               <span className='w-1/5 border-b dark:border-gray-400 lg:w-1/4'></span>
             </div>
-            <form>
+            <form onSubmit={handleEmailRegistration}>
               <div className='mt-4'>
                 <label
                   className='block mb-2 text-sm font-medium text-gray-600 '

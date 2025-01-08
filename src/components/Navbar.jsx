@@ -3,7 +3,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import { Link } from "react-router";
 
     const Navbar = () => {
-        const {user}=useContext(AuthContext);
+        const {user,logOut}=useContext(AuthContext);
     return (
         <div className="navbar bg-gray-300 rounded-lg border  container px-4 mx-auto">
         <div className="flex-1">
@@ -60,7 +60,7 @@ import { Link } from "react-router";
                 <div className="text-xl font-semibold">Bid Requests</div>
                 </li>
                 <li className="mt-2">
-                <button className="bg-gray-200 block text-center text-xl font-semibold">Logout</button>
+                <button onClick={logOut} className="bg-gray-200 block text-center text-xl font-semibold">Logout</button>
                 </li>
             </ul>
             </div>
