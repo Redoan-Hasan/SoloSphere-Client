@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import Home from "../pages/Home";
 
+
 export const routes = (
   <Routes>
     <Route path="/" element={<Root />}>
