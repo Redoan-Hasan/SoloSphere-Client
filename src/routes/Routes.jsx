@@ -3,6 +3,7 @@ import Root from "../layouts/Root";
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import Home from "../pages/Home";
+import JobDetails from "../pages/JobDetails";
 
 
 export const routes = (
@@ -11,6 +12,7 @@ export const routes = (
       <Route index element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registration" element={<Registration />} />
+      <Route path="/job/:id" element={<JobDetails />} />
     </Route>
   </Routes>
 );
