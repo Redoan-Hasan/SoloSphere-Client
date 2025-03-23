@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useParams } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const JobDetails = () => {
   const {user}=useContext(AuthContext);
@@ -20,15 +21,24 @@ const JobDetails = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    if(user?.email === data?.buyer?.email) return toast.error("You can't bid on your own job");
     const jobId = id;
     const price = parseFloat(e.target.price.value);
+    if(price < data?.minimum_price || price > data?.maximum_price) return toast.error("Price must be within the range");
     const comment = e.target.comment.value;
     const email = user?.email;
     const deadline = startDate;
-    const buyer_email = data?.email;
+    const buyer_email = data?.buyer?.email;
     console.log({ jobId, price, comment, email, deadline ,buyer_email});
     const bidDetails = { jobId, price, comment, email, deadline ,buyer_email};
-    axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidDetails);
+    
+    try{
+      const {data} =axios.post(`${import.meta.env.VITE_API_URL}/bid`,bidDetails);
+      console.log(data);
+    }
+    catch(err){
+      console.log(err);
+    }
   };
 
   return (
@@ -37,7 +47,7 @@ const JobDetails = () => {
       <div className="flex-1  px-4 py-7 bg-white rounded-md shadow-md md:min-h-[350px]">
         <div className="flex items-center justify-between">
           <span className="text-sm font-light text-gray-800 ">
-            {data?.deadline}
+            {new Date(data?.deadline).toDateString()}
           </span>
           <span className="px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full ">
             {data?.category}
@@ -55,13 +65,13 @@ const JobDetails = () => {
           </p>
           <div className="flex items-center gap-5">
             <div>
-              <p className="mt-2 text-sm text-gray-600 ">Name: Jhankar Vai.</p>
+              <p className="mt-2 text-sm text-gray-600 ">Name: {data?.buyer?.email.split('@')[0]}</p>
               <p className="mt-2 text-sm text-gray-600 ">
-                Email: jhankar@mahbub.com
+                Email: {data?.buyer?.email}
               </p>
             </div>
             <div className="object-cover overflow-hidden rounded-full w-14 h-14">
-              <img src="" alt="" />
+              <img src={data?.buyer?.photo} alt="" />
             </div>
           </div>
           <p className="mt-6 text-lg font-bold text-gray-600 ">

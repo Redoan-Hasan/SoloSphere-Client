@@ -5,17 +5,17 @@ import { Link } from "react-router";
     const Navbar = () => {
         const {user,logOut}=useContext(AuthContext);
     return (
-        <div className="navbar bg-gray-300 rounded-lg border  container px-4 mx-auto">
+        <div className="container px-4 mx-auto bg-gray-300 border rounded-lg navbar">
         <div className="flex-1">
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
             <img className="w-auto h-7" src={'https://github.com/shakilahmedatik/soloSphere-resources/blob/main/images/logo.png?raw=true'} alt="" />
-            <span className="font-bold text-xl">SoloSphere</span>
+            <span className="text-xl font-bold">SoloSphere</span>
             </div>
         </div>
         <div className="flex-none ">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="px-1 menu menu-horizontal">
             <li>
-                <div className="text-xl font-semibold">Home</div>
+                <Link to="/" className="text-xl font-semibold">Home</Link>
             </li>
 
             {
@@ -28,7 +28,7 @@ import { Link } from "react-router";
 
             {
                 user &&
-                <div className="dropdown dropdown-end z-50">
+                <div className="z-50 dropdown dropdown-end">
             <div
                 tabIndex={0}
                 role="button"
@@ -48,10 +48,10 @@ import { Link } from "react-router";
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
                 <li>
-                <div className="justify-between  text-xl font-semibold">Add Job</div>
+                <Link to="/add-job" className="justify-between text-xl font-semibold">Add Job</Link>
                 </li>
                 <li>
-                <div className="text-xl font-semibold">My Posted Jobs</div>
+                <Link to="/postedJobs" className="text-xl font-semibold">My Posted Jobs</Link>
                 </li>
                 <li>
                 <div className="text-xl font-semibold">My Bids</div>
@@ -60,7 +60,7 @@ import { Link } from "react-router";
                 <div className="text-xl font-semibold">Bid Requests</div>
                 </li>
                 <li className="mt-2">
-                <button onClick={logOut} className="bg-gray-200 block text-center text-xl font-semibold">Logout</button>
+                <button onClick={logOut} className="block text-xl font-semibold text-center bg-gray-200">Logout</button>
                 </li>
             </ul>
             </div>
