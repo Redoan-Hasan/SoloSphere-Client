@@ -10,12 +10,12 @@ const MyPostedJobs = () => {
     useEffect(()=>{
         getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[user]);
+    },[user,data]);
     
     const getData = async()=>{
         const data = await axios.get(`${import.meta.env.VITE_API_URL}/postedJobs/${user?.email}`);
         setData(data?.data);
-        console.log(data);
+        // console.log(data);
     };
     
     const handleDelete = async(id)=>{
