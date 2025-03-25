@@ -12,7 +12,7 @@ const AddJob = () => {
   const handleFormSubmit = async(e) => {
     e.preventDefault();
     const job_title = e.target.job_title.value;
-    const email = e.target.email.value;
+    // const email = e.target.email.value;
     const deadline = startDate;
     const category = e.target.category.value;
     const description = e.target.description.value;
@@ -26,7 +26,7 @@ const AddJob = () => {
       minimum_price,
       maximum_price,
       buyer:{
-        email,
+        email: user?.email,
         name:user?.name,
         photo:user?.photoURL,
       }

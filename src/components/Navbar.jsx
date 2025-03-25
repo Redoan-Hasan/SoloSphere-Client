@@ -54,7 +54,7 @@ import { Link } from "react-router";
                 <Link to="/postedJobs" className="text-xl font-semibold">My Posted Jobs</Link>
                 </li>
                 <li>
-                <div className="text-xl font-semibold">My Bids</div>
+                <Link to="/myBids" className="text-xl font-semibold">My Bids</Link>
                 </li>
                 <li>
                 <div className="text-xl font-semibold">Bid Requests</div>

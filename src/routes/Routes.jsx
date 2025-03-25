@@ -8,18 +8,48 @@ import AddJob from "../pages/AddJob";
 import ErrorPage from "../pages/ErrorPage";
 import MyPostedJobs from "../pages/MyPostedJobs";
 import UpdateJob from "../pages/UpdateJob";
-
+import PrivateRoute from "./PrivateRoute";
+import MyBids from "../pages/MyBids";
 
 export const routes = (
   <Routes>
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />} >
+    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registration" element={<Registration />} />
-      <Route path="/job/:id" element={<JobDetails />} />
-      <Route path="/add-job" element={<AddJob />} />
-      <Route path="/postedJobs" element={<MyPostedJobs />} />
-      <Route path="/updateJob/:id" element={<UpdateJob />} />
+      <Route
+        path="/job/:id"
+        element={
+          <PrivateRoute>
+            <JobDetails />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/add-job"
+        element={
+          <PrivateRoute>
+            <AddJob />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/postedJobs"
+        element={
+          <PrivateRoute>
+            <MyPostedJobs />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/updateJob/:id"
+        element={
+          <PrivateRoute>
+            <UpdateJob />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/myBids" element={<MyBids />} />
     </Route>
   </Routes>
 );

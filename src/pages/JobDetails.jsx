@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 
@@ -11,6 +11,7 @@ const JobDetails = () => {
   const { id } = useParams();
   const [data, setData] = useState();
   const [startDate, setStartDate] = useState(new Date());
+  const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       const data = await axios.get(`${import.meta.env.VITE_API_URL}/job/${id}`);
@@ -35,6 +36,8 @@ const JobDetails = () => {
     try{
       const {data} =axios.post(`${import.meta.env.VITE_API_URL}/bid`,bidDetails);
       console.log(data);
+        toast.success("Bid Placed Successfully");
+        navigate('/');
     }
     catch(err){
       console.log(err);

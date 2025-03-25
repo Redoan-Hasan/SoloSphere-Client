@@ -40,7 +40,7 @@ const TabCategories = () => {
         </TabPanel>
         <TabPanel>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {jobs.filter((job) => job.category === "Graphic Design")
+            {jobs.filter((job) => job.category === "Graphics Design")
             .map((job) => (
               <JobCard key={job._id} job={job} />
             ))}

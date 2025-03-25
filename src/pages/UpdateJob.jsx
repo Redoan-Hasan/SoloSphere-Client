@@ -25,17 +25,14 @@ const UpdateJob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const jobId = id;
     const job_title = e.target.job_title.value;
     const description = e.target.description.value;
-    const email = user?.email;
     const deadline = startDate;
-    const buyer_email = job?.buyer?.email;
     const maximum_price = e.target.max_price.value;
     const minimum_price = e.target.min_price.value;
     const category = e.target.category.value;
     // console.log({ jobId, description, email, deadline ,buyer_email});
-    const updatedJobDetails = { jobId, job_title, description, email, deadline ,buyer_email, maximum_price, minimum_price, category };
+    const updatedJobDetails = {  job_title, description, deadline , maximum_price, minimum_price, category };
     
     try {
       const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/updatedJob/${id}`, updatedJobDetails);
@@ -105,7 +102,7 @@ const UpdateJob = () => {
                 name="category"
                 id="category"
                 className="p-2 border rounded-md"
-                defaultValue={job?.category}
+                value={job?.category}
               >
                 <option value="Web Development">Web Development</option>
                 <option value="Graphics Design">Graphics Design</option>
