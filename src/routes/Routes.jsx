@@ -10,6 +10,7 @@ import MyPostedJobs from "../pages/MyPostedJobs";
 import UpdateJob from "../pages/UpdateJob";
 import PrivateRoute from "./PrivateRoute";
 import MyBids from "../pages/MyBids";
+import BidRequests from "../pages/BidRequests";
 
 export const routes = (
   <Routes>
@@ -49,7 +50,22 @@ export const routes = (
           </PrivateRoute>
         }
       />
-      <Route path="/myBids" element={<MyBids />} />
+      <Route
+        path="/myBids"
+        element={
+          <PrivateRoute>
+            <MyBids />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/bidRequests"
+        element={
+          <PrivateRoute>
+            <BidRequests />
+          </PrivateRoute>
+        }
+      />
     </Route>
   </Routes>
 );

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate, useParams } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 
 const JobDetails = () => {
-  const {user}=useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const [data, setData] = useState();
   const [startDate, setStartDate] = useState(new Date());
@@ -22,24 +22,31 @@ const JobDetails = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if(user?.email === data?.buyer?.email) return toast.error("You can't bid on your own job");
+    if (user?.email === data?.buyer?.email)
+      return toast.error("You can't bid on your own job");
     const jobId = id;
     const price = parseFloat(e.target.price.value);
-    if(price < data?.minimum_price || price > data?.maximum_price) return toast.error("Price must be within the range");
+    if (price < data?.minimum_price || price > data?.maximum_price)
+      return toast.error("Price must be within the range");
     const comment = e.target.comment.value;
+    const job_title = data?.job_title;
+    const category = data?.category;
     const email = user?.email;
     const deadline = startDate;
     const buyer_email = data?.buyer?.email;
-    console.log({ jobId, price, comment, email, deadline ,buyer_email});
-    const bidDetails = { jobId, price, comment, email, deadline ,buyer_email};
-    
-    try{
-      const {data} =axios.post(`${import.meta.env.VITE_API_URL}/bid`,bidDetails);
+    const status = "Pending";
+    console.log({ price, comment, email, deadline, buyer_email, status });
+    const bidDetails = { jobId, price, job_title, category,comment, email, deadline, buyer_email , status};
+
+    try {
+      const { data } = axios.post(
+        `${import.meta.env.VITE_API_URL}/bid`,
+        bidDetails
+      );
       console.log(data);
-        toast.success("Bid Placed Successfully");
-        navigate('/');
-    }
-    catch(err){
+      toast.success("Bid Placed Successfully");
+      navigate("/");
+    } catch (err) {
       console.log(err);
     }
   };
@@ -68,7 +75,9 @@ const JobDetails = () => {
           </p>
           <div className="flex items-center gap-5">
             <div>
-              <p className="mt-2 text-sm text-gray-600 ">Name: {data?.buyer?.email.split('@')[0]}</p>
+              <p className="mt-2 text-sm text-gray-600 ">
+                Name: {data?.buyer?.email.split("@")[0]}
+              </p>
               <p className="mt-2 text-sm text-gray-600 ">
                 Email: {data?.buyer?.email}
               </p>

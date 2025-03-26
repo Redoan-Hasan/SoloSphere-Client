@@ -57,7 +57,7 @@ import { Link } from "react-router";
                 <Link to="/myBids" className="text-xl font-semibold">My Bids</Link>
                 </li>
                 <li>
-                <div className="text-xl font-semibold">Bid Requests</div>
+                <Link to="/bidRequests" className="text-xl font-semibold">Bid Requests</Link>
                 </li>
                 <li className="mt-2">
                 <button onClick={logOut} className="block text-xl font-semibold text-center bg-gray-200">Logout</button>
