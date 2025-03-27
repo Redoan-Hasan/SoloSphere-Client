@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router"
 import { AuthContext } from "../provider/AuthProvider"
 import toast from "react-hot-toast"
+import axios from "axios"
 
 const Login = () => {
     const {signInWithGoogle,signIn, user} = useContext(AuthContext)
@@ -16,7 +17,9 @@ const Login = () => {
 
     const handleGoogleSignIn = async() => {
         try{
-            await signInWithGoogle()
+            const result = await signInWithGoogle();
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`,{email: result.user?.email}, {withCredentials:true});
+            console.log(data);
             toast.success('Login successful')
             navigate(from , {replace:true})
         }catch(error){
@@ -26,12 +29,14 @@ const Login = () => {
     }
 
     const handleEmailLogin = async(e) => {
-        e.preventDefault()
+        e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         try{
-            await signIn(email,password)
+            const result = await signIn(email,password)
             toast.success('Login successful')
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`,{email: result.user?.email}, {withCredentials:true});
+            console.log(data);
             navigate(from , {replace:true})
         }catch(error){
             console.log(error);

@@ -1,13 +1,14 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
 
 const UpdateJob = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const {user} = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState({});
@@ -15,7 +16,7 @@ const UpdateJob = () => {
   useEffect(() => {
     const getJob = async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/updateJob/${id}`
+        `${import.meta.env.VITE_API_URL}/updateJob/${id}`,{withCredentials:true}
       );
       setJob(res.data);
       // console.log(res.data);

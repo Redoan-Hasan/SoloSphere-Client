@@ -3,18 +3,21 @@ import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyPostedJobs = () => {
-    const {user}= useContext(AuthContext);
+    const {user}= useAuth();
+    const axiosSecure = useAxiosSecure();
     const [data, setData] = useState();
     useEffect(()=>{
         getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[user,data]);
+    },[user]);
     
     const getData = async()=>{
-        const data = await axios.get(`${import.meta.env.VITE_API_URL}/postedJobs/${user?.email}`);
-        setData(data?.data);
+        const data = await axiosSecure.get(`/postedJobs/${user?.email}`, {withCredentials:true});
+        setData(data.data);
         // console.log(data);
     };
     

@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
+import axios from "axios";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -37,6 +38,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = async () => {
+    await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {withCredentials: true})
     setLoading(true);
     return signOut(auth);
   };

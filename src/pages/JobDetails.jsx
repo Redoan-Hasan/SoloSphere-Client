@@ -14,7 +14,7 @@ const JobDetails = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
-      const data = await axios.get(`${import.meta.env.VITE_API_URL}/job/${id}`);
+      const data = await axios.get(`${import.meta.env.VITE_API_URL}/job/${id}`,{withCredentials:true});
       setData(data.data);
     };
     getData();
