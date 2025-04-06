@@ -1,36 +1,71 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../provider/AuthProvider";
+// import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
+import useAuth from "../hooks/useAuth";
 const MyBids = () => {
-  const { user } = useContext(AuthContext);
-  const [bids, setBids] = useState([]);
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
   const getData = async () => {
-    const data = await axios.get(
+    const {data} = await axiosSecure.get(
       `${import.meta.env.VITE_API_URL}/myBids/${user?.email}`
     );
-    setBids(data.data);
-    console.log(data.data);
+    return data;
+    // setBids(data.data);
+    // console.log(data.data);
   };
 
+  const {data:bids = [], isLoading, error, isError} = useQuery({
+    queryKey:["MyBids", user?.email],
+    queryFn: ()=>getData(),
+  })
+  // console.log(bids);
+  // console.log(isLoading);
+
+  // const [bids, setBids] = useState([]);
+  // useEffect(() => {
+  //   getData();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user]);
+  
+  const {mutateAsync,} = useMutation({
+    mutationKey:[""],
+    mutationFn: async({id})=>{
+      const {data}= await axios.patch(`${import.meta.env.VITE_API_URL}/bidStatus/${id}`,{status : 'Complete'});
+      console.log(data);
+      return data;
+    },
+    onSuccess:()=>{
+      toast.success("Congratulations");
+      // refreshing the ui for latest data 
+      // refetch();
+
+      // complicated way to refresh the ui
+      queryClient.invalidateQueries(["MyBids"]);
+    }
+  })
+  
   const handleStatus = async (id) => {
-    const {data}= await axios.patch(`${import.meta.env.VITE_API_URL}/bidStatus/${id}`,{status : 'Complete'});
-    toast.success("Congratulations")
-    console.log(data);
+    // console.log(data);
+      await mutateAsync({id});
   };
+
+  if(isLoading){
+    return <p>Data is still loading</p>
+  }
+  if(error || isError){
+    console.log(error, isError);
+  }
   return (
     <section className="container px-4 pt-12 mx-auto">
       <div className="flex items-center gap-x-3">
         <h2 className="text-lg font-medium text-gray-800 ">My Bids</h2>
 
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-          {bids.length} Bid
+          {bids?.length} Bid
         </span>
       </div>
 
