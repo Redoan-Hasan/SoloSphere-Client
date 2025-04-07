@@ -11,6 +11,7 @@ import UpdateJob from "../pages/UpdateJob";
 import PrivateRoute from "./PrivateRoute";
 import MyBids from "../pages/MyBids";
 import BidRequests from "../pages/BidRequests";
+import AllJobs from "../pages/AllJobs";
 
 export const routes = (
   <Routes>
@@ -64,6 +65,12 @@ export const routes = (
           <PrivateRoute>
             <BidRequests />
           </PrivateRoute>
+        }
+      />
+      <Route
+        path="/allJobs"
+        element={
+            <AllJobs />
         }
       />
     </Route>

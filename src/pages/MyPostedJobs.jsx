@@ -1,37 +1,63 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const MyPostedJobs = () => {
     const {user}= useAuth();
     const axiosSecure = useAxiosSecure();
-    const [data, setData] = useState();
-    useEffect(()=>{
-        getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[user]);
+    const queryClient = useQueryClient();
+    // const [data, setData] = useState();
+    // useEffect(()=>{
+    //     getData();
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // },[user]);
     
     const getData = async()=>{
-        const data = await axiosSecure.get(`/postedJobs/${user?.email}`, {withCredentials:true});
-        setData(data.data);
+        const {data} = await axiosSecure.get(`/postedJobs/${user?.email}`);
+        // setData(data.data);
         // console.log(data);
+        return data;
     };
+
+    const {data = [] , isLoading} = useQuery({
+      queryKey: ["myPostedJobs",user?.email],
+      queryFn: ()=>getData(),
+    });
+
+    const {mutateAsync} = useMutation({
+      mutationKey: ["MyPostedJobsMutation"],
+      mutationFn: async(id)=>{
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/postedJob/${id}`);
+        console.log(res);
+        return res;
+      },
+      onSuccess:() => {
+        toast.success("Job Deleted Successfully");
+        queryClient.invalidateQueries(["myPostedJobs"])
+      }
+    })
     
     const handleDelete = async(id)=>{
-        try{
-            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/postedJob/${id}`);
-            console.log(res);
-            // const newData = data.filter(job=>job._id !== id);
-            // setData(newData);
-            getData();
-            toast.success("Job Deleted Successfully");
-        }catch(err){
-            console.log(err);
-        }
+      await mutateAsync(id);
+        // try{
+            
+        //     console.log(res);
+        //     const newData = data.filter(job=>job._id !== id);
+        //     setData(newData);
+        //     getData();
+        //     toast.success("Job Deleted Successfully");
+        // }catch(err){
+        //     console.log(err);
+        // }
     };
+
+    if(isLoading){
+      return <p>Data is loading...</p>
+    }
   return (
     <section className="container px-4 pt-12 mx-auto">
       <div className="flex items-center gap-x-3">

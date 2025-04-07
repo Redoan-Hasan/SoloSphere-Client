@@ -17,6 +17,9 @@ import { Link } from "react-router";
             <li>
                 <Link to="/" className="text-xl font-semibold">Home</Link>
             </li>
+            <li>
+                <Link to="/allJobs" className="text-xl font-semibold">All Jobs</Link>
+            </li>
 
             {
                 !user && 

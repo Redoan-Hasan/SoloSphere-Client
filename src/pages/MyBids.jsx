@@ -31,8 +31,8 @@ const MyBids = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [user]);
   
-  const {mutateAsync,} = useMutation({
-    mutationKey:[""],
+  const {mutateAsync} = useMutation({
+    mutationKey:["MyBidsMutation"],
     mutationFn: async({id})=>{
       const {data}= await axios.patch(`${import.meta.env.VITE_API_URL}/bidStatus/${id}`,{status : 'Complete'});
       console.log(data);

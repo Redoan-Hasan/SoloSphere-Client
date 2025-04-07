@@ -1,13 +1,13 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate, useParams } from "react-router";
-import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
 
 const JobDetails = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const { id } = useParams();
   const [data, setData] = useState();
   const [startDate, setStartDate] = useState(new Date());
@@ -20,7 +20,7 @@ const JobDetails = () => {
     getData();
   }, [id]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (user?.email === data?.buyer?.email)
       return toast.error("You can't bid on your own job");
@@ -39,7 +39,7 @@ const JobDetails = () => {
     const bidDetails = { jobId, price, job_title, category,comment, email, deadline, buyer_email , status};
 
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/bid`,
         bidDetails
       );
@@ -48,6 +48,7 @@ const JobDetails = () => {
       navigate("/");
     } catch (err) {
       console.log(err);
+      return toast.error(err.response.data) && navigate("/");
     }
   };
 
