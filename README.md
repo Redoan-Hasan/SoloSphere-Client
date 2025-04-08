@@ -22,7 +22,6 @@ SoloSphere is a freelance marketplace connecting clients with skilled freelancer
 - Responsive design for all devices
 - Real-time bid status updates
 - Secure API with JWT authentication
-- User dashboard for managing jobs and bids
 
 ## Technologies
 ### Frontend
