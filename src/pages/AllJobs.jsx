@@ -44,7 +44,10 @@ const AllJobs = () => {
         <div className="flex flex-col items-center justify-center gap-5 md:flex-row ">
           <div>
             <select
-              onChange={(e)=> setFilter(e.target.value)}
+              onChange={(e)=> {
+                setFilter(e.target.value);
+                setCurrentPage(1);
+              }}
               name="category"
               id="category"
               value={filter}
