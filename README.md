@@ -1,8 +1,41 @@
-# React + Vite
+# SoloSphere - Freelance Marketplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SoloSphere is a freelance marketplace connecting clients with skilled freelancers across Web Development, Graphics Design, and Digital Marketing.
 
-Currently, two official plugins are available:
+## 🔗 Live Site & Repositories
+<div align="center">
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| **Resource** | **URL** |
+|:------------:|:-------:|
+| 🌐 **Live Site** | [SoloSphere](https://solosphere-eee5c.web.app) |
+| 💻 **Frontend Source Code** | [GitHub Repository](https://github.com/Redoan-Hasan/SoloSphere-Client) |
+| ⚙️ **Backend Source Code** | [GitHub Repository](https://github.com/Redoan-Hasan/SoloSphere-Server) |
+| 🚀 **API Endpoint** | [Backend API](https://solosphere-server-delta.vercel.app) |
+
+</div>
+
+## Features
+- User authentication with email/password and Google Sign-in
+- Job posting and management
+- Advanced job filtering, searching, and sorting
+- Bidding system with status tracking
+- Responsive design for all devices
+- Real-time bid status updates
+- Secure API with JWT authentication
+
+## Technologies
+### Frontend
+- **React** - UI library
+- **Tailwind CSS & DaisyUI** - Styling
+- **React Query** - Data fetching and state management
+- **Firebase** - Authentication and hosting
+- **Axios** - API requests
+- **React Router** - Navigation
+- **React DatePicker** - Date selection component
+- **Swiper.js** - Carousel component
+
+### Backend
+- **Node.js & Express** - Server framework
+- **MongoDB** - Database
+- **JWT** - Authentication
+- **Vercel** - Hosting
