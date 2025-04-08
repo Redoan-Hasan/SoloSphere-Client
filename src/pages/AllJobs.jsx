@@ -1,15 +1,53 @@
-// import JobCard from "../components/JobCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import JobCard from "../components/JobCard";
 
 const AllJobs = () => {
-  const pages = [1, 2, 3, 4, 5];
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [filter, setFilter] = useState('');
+  const [jobs, setJobs] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axios.get(
+        `${
+          import.meta.env.VITE_API_URL
+        }/allJobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}`
+      );
+      setJobs(data.data);
+    };
+    getData();
+  }, [currentPage, itemsPerPage, filter]);
+
+  useEffect(() => {
+    const getCount = async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/allJobsCount`
+      );
+      setCount(data.count);
+    };
+    getCount();
+  }, []);
+  console.log(filter);
+  const numberOfPages = Math.ceil(count / itemsPerPage);
+  const pages = [...Array(numberOfPages).keys()].map((element) => element + 1);
+  // console.log(currentPage);
+
+  const handlePaginationBtn = (value) => {
+    console.log(value);
+    setCurrentPage(value);
+  };
   return (
     <div className="container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
         <div className="flex flex-col items-center justify-center gap-5 md:flex-row ">
           <div>
             <select
+              onChange={(e)=> setFilter(e.target.value)}
               name="category"
               id="category"
+              value={filter}
               className="p-4 border rounded-lg"
             >
               <option value="">Filter By Category</option>
@@ -45,17 +83,21 @@ const AllJobs = () => {
               <option value="asc">Ascending Order</option>
             </select>
           </div>
-          <button className="btn">Reset</button>
+          <button onClick={()=> setCurrentPage(1)} className="btn">Reset</button>
         </div>
         <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* {jobs.map(job => (
+          {jobs.map((job) => (
             <JobCard key={job._id} job={job} />
-          ))} */}
+          ))}
         </div>
       </div>
 
       <div className="flex justify-center mt-12">
-        <button className="px-4 py-2 mx-1 text-gray-700 capitalize bg-gray-200 rounded-md disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-blue-500 hover:text-white">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => handlePaginationBtn(currentPage - 1)}
+          className="px-4 py-2 mx-1 text-gray-700 capitalize bg-gray-200 rounded-md disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-blue-500 hover:text-white"
+        >
           <div className="flex items-center -mx-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +120,21 @@ const AllJobs = () => {
 
         {pages.map((btnNum) => (
           <button
+            onClick={() => handlePaginationBtn(btnNum)}
             key={btnNum}
-            className={`hidden px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
+            className={` ${
+              currentPage === btnNum && "bg-blue-500 text-white"
+            } hidden px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
           >
             {btnNum}
           </button>
         ))}
 
-        <button className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500">
+        <button
+          disabled={currentPage === numberOfPages}
+          onClick={() => handlePaginationBtn(currentPage + 1)}
+          className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500"
+        >
           <div className="flex items-center -mx-1">
             <span className="mx-1">Next</span>
 
