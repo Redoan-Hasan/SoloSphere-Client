@@ -24,6 +24,9 @@ const JobCard = ({ job }) => {
         <p className="mt-2 text-sm font-bold text-gray-600 ">
           Range: {job.minimum_price}$ - {job.maximum_price}$
         </p>
+        <p className='mt-2 text-sm font-bold text-gray-600 '>
+          Bid Count: {job?.bid_count || 0}
+        </p>
       </div>
     </Link>
   );

@@ -29,7 +29,8 @@ const AddJob = () => {
         email: user?.email,
         name:user?.name,
         photo:user?.photoURL,
-      }
+      },
+      bid_count:0,
     };
     try{
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/job`,data);
