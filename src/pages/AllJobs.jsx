@@ -3,23 +3,25 @@ import { useEffect, useState } from "react";
 import JobCard from "../components/JobCard";
 
 const AllJobs = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [filter, setFilter] = useState('');
-  const [sort, setSort] = useState('');
+  const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
+  const [search, setSearch] = useState("");
   const [jobs, setJobs] = useState([]);
+  console.log(search);
   useEffect(() => {
     const getData = async () => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/allJobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}`
+        }/allJobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}&search=${search}`
       );
       setJobs(data.data);
     };
     getData();
-  }, [currentPage, itemsPerPage, filter,sort]);
+  }, [currentPage, itemsPerPage, filter, sort, search]);
 
   useEffect(() => {
     const getCount = async () => {
@@ -39,13 +41,19 @@ const AllJobs = () => {
     console.log(value);
     setCurrentPage(value);
   };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const text = e.target.search.value;
+    setSearch(text);
+  };
   return (
     <div className="container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
         <div className="flex flex-col items-center justify-center gap-5 md:flex-row ">
           <div>
             <select
-              onChange={(e)=> {
+              onChange={(e) => {
                 setFilter(e.target.value);
                 setCurrentPage(1);
               }}
@@ -61,7 +69,7 @@ const AllJobs = () => {
             </select>
           </div>
 
-          <form>
+          <form onSubmit={handleSearch}>
             <div className="flex p-1 overflow-hidden border rounded-lg focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
               <input
                 className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none focus:placeholder-transparent"
@@ -78,8 +86,8 @@ const AllJobs = () => {
           </form>
           <div>
             <select
-              onChange={(e)=>{
-                setSort(e.target.value)
+              onChange={(e) => {
+                setSort(e.target.value);
               }}
               name="sort"
               id="category"
@@ -90,7 +98,9 @@ const AllJobs = () => {
               <option value="asc">Ascending Order</option>
             </select>
           </div>
-          <button onClick={()=> setCurrentPage(1)} className="btn">Reset</button>
+          <button onClick={() => setCurrentPage(1)} className="btn">
+            Reset
+          </button>
         </div>
         <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {jobs.map((job) => (
