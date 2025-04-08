@@ -23,12 +23,12 @@ const AllJobs = () => {
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/allJobsCount`
+        `${import.meta.env.VITE_API_URL}/allJobsCount?filter=${filter}`
       );
       setCount(data.count);
     };
     getCount();
-  }, []);
+  }, [filter]);
   console.log(filter);
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()].map((element) => element + 1);
