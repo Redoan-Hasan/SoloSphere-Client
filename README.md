@@ -2,11 +2,17 @@
 
 SoloSphere is a freelance marketplace connecting clients with skilled freelancers across Web Development, Graphics Design, and Digital Marketing.
 
-## Live Site & Repositories
-- [Live Site](https://solosphere-eee5c.web.app)
-- [Frontend Source Code](https://github.com/Redoan-Hasan/SoloSphere-Client)
-- [Backend Source Code](https://github.com/Redoan-Hasan/SoloSphere-Server)
-- [API Endpoint](https://solosphere-server-delta.vercel.app)
+## 🔗 Live Site & Repositories
+<div align="center">
+
+| **Resource** | **URL** |
+|:------------:|:-------:|
+| 🌐 **Live Site** | [SoloSphere](https://solosphere-eee5c.web.app) |
+| 💻 **Frontend Source Code** | [GitHub Repository](https://github.com/Redoan-Hasan/SoloSphere-Client) |
+| ⚙️ **Backend Source Code** | [GitHub Repository](https://github.com/Redoan-Hasan/SoloSphere-Server) |
+| 🚀 **API Endpoint** | [Backend API](https://solosphere-server-delta.vercel.app) |
+
+</div>
 
 ## Features
 - User authentication with email/password and Google Sign-in
@@ -16,6 +22,7 @@ SoloSphere is a freelance marketplace connecting clients with skilled freelancer
 - Responsive design for all devices
 - Real-time bid status updates
 - Secure API with JWT authentication
+- User dashboard for managing jobs and bids
 
 ## Technologies
 ### Frontend
