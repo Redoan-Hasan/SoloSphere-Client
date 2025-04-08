@@ -7,18 +7,19 @@ const AllJobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('');
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
     const getData = async () => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/allJobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}`
+        }/allJobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}`
       );
       setJobs(data.data);
     };
     getData();
-  }, [currentPage, itemsPerPage, filter]);
+  }, [currentPage, itemsPerPage, filter,sort]);
 
   useEffect(() => {
     const getCount = async () => {
@@ -29,7 +30,7 @@ const AllJobs = () => {
     };
     getCount();
   }, [filter]);
-  console.log(filter);
+  // console.log(filter);
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()].map((element) => element + 1);
   // console.log(currentPage);
@@ -77,7 +78,10 @@ const AllJobs = () => {
           </form>
           <div>
             <select
-              name="category"
+              onChange={(e)=>{
+                setSort(e.target.value)
+              }}
+              name="sort"
               id="category"
               className="p-4 border rounded-md"
             >
